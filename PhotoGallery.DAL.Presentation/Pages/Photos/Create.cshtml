@@ -1,0 +1,48 @@
+﻿@page
+@model PhotoGallery.DAL.Presentation.Pages.Photos.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Photo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Photo.Name" class="control-label"></label>
+                <input asp-for="Photo.Name" class="form-control" />
+                <span asp-validation-for="Photo.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo.Path" class="control-label"></label>
+                <input asp-for="Photo.Path" class="form-control" />
+                <span asp-validation-for="Photo.Path" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo.Created" class="control-label"></label>
+                <input asp-for="Photo.Created" class="form-control" />
+                <span asp-validation-for="Photo.Created" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo.AlbumId" class="control-label"></label>
+                <select asp-for="Photo.AlbumId" class ="form-control" asp-items="ViewBag.AlbumId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

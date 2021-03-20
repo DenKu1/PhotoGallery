@@ -1,0 +1,34 @@
+﻿@page
+@model PhotoGallery.DAL.Presentation.Pages.Likes.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Like</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Like.Id)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Like.Photo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Like.Photo.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Like.User)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Like.User.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Like.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
