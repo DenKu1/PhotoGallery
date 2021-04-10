@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 namespace PhotoGallery.WEB.Controllers
 {
     [ApiController]    
-    [Authorize]
     public class AlbumController : ControllerBase
     {
         private readonly IAlbumService _albumService;

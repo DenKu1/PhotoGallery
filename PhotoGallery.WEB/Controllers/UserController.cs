@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 namespace PhotoGallery.WEB.Controllers
 {
     [ApiController]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -22,7 +21,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpGet]
         [Route("api/users")]
-        [Authorize(Roles = "Admin")]       
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             var users = await _userService.GetUsersAsync();
@@ -31,7 +29,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpGet]
         [Route("api/users/{id}")]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
             UserDTO userDTO;
@@ -50,7 +47,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpGet]
         [Route("api/users/by-user-name/{username}")]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult<UserDTO>> GetUserByUserName(string userName)
         {
             if (userName == null)
@@ -127,7 +123,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpDelete]
         [Route("api/users/{id}")]
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<UserDTO>> DeleteUser(int id)
         {
             try
