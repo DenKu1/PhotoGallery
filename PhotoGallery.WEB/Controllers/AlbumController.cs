@@ -24,7 +24,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpGet]
         [Route("api/users/{id}/albums")]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult<IEnumerable<AlbumDTO>>> GetAlbums(int id)
         {
             IEnumerable<AlbumDTO> albumDTOs;
@@ -43,7 +42,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpGet]
         [Route("api/albums/{id}")]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult<AlbumDTO>> GetAlbum(int id)
         {
             AlbumDTO albumDTO;
@@ -62,7 +60,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpPost]
         [Route("api/albums")]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult<AlbumDTO>> PostAlbum([FromBody] AlbumAddDTO albumAddDTO)
         {         
             if (!ModelState.IsValid)
@@ -91,7 +88,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpPut]
         [Route("api/albums/{id}")]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult> PutAlbum(int id, [FromBody] AlbumUpdateDTO albumUpdateDTO)
         {
             if (!ModelState.IsValid)
@@ -118,7 +114,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpDelete]
         [Route("api/albums/{id}")]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult> DeleteAlbum(int id)
         {
             try

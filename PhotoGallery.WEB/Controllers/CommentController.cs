@@ -24,7 +24,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpGet]
         [Route("api/photos/{id}/comments")]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult<IEnumerable<CommentDTO>>> GetComments(int id)
         {
             IEnumerable<CommentDTO> commentDTOs;
@@ -43,7 +42,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpGet]
         [Route("api/comments/{id}")]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult<CommentDTO>> GetComment(int id)
         {
             CommentDTO commentDTO;
@@ -62,7 +60,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpPost]
         [Route("api/photos/{id}/comments")]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult<CommentDTO>> PostComment(int id, [FromBody] CommentAddDTO commentAddDTO)
         {
             if (!ModelState.IsValid)
@@ -91,7 +88,6 @@ namespace PhotoGallery.WEB.Controllers
 
         [HttpDelete]
         [Route("api/comments/{id}")]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult> DeleteComment(int id)
         {
             try
