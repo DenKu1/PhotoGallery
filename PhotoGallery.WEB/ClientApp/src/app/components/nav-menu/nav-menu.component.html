@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light border-bottom border-dark font-weight-bolder">
+  <div class="navbar-brand">
+    <a [routerLink]="['/']">
+      <div class="badge badge-pill badge-secondary">
+        <h3>Online photo gallery</h3>
+      </div>
+    </a>
+  </div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a *ngIf="currentUser" [routerLink]="['/users', currentUser.id, 'albums']" class="nav-link">My albums</a>
+        <a *ngIf="!currentUser" class="nav-link disabled">My albums</a>
+      </li>
+      <li class="form-inline">
+        <input [formControl]="userName" type="text" class="form-control" style="width:170px;" placeholder="Search user albums">
+        <button (click)="findUser()" class="btn btn-secondary btn-sm py-2 mr-1">Ok</button>
+        <span *ngIf="error" class="text-danger">{{error}}</span>
+        <span *ngIf="submitted && userName.errors" class="text-danger">
+          <span *ngIf="userName.errors.maxlength">Max length is 50 symbols</span>
+        </span>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li *ngIf="currentUser" class="nav-item dropdown">
+        <div class="navbar-text dropdown-toggle" id="navbardrop" data-toggle="dropdown">Account: {{currentUser.userName}}</div>
+        <div class="dropdown-menu dropdown-menu-right">
+          <button (click)="logout()" class="dropdown-item">Logout</button>
+        </div>
+      </li>
+      <li *ngIf="!currentUser" class="nav-item">
+        <a [routerLink]="['/users/login']" class="nav-link">Login here</a>
+      </li>      
+    </ul>
+  </div>
+</nav>

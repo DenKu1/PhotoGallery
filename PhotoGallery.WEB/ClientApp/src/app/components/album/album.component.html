@@ -1,0 +1,144 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 my-side-colon">
+      <div *ngIf="isOwned" class="jumbotron jumbotron-fluid py-4">
+        <div class="container text-center">
+          <h4>Create new album:</h4>
+          <!--Button to open album add modal-->
+          <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#createAlbumModal">New album</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 my-main-section">
+      <div class="container">
+        <div *ngIf="albumOwner" class="card my-3">
+          <div class="card-body">
+            <h3 *ngIf="isOwned">You watching your albums:</h3>
+            <h3 *ngIf="!isOwned">You watching {{albumOwner.userName}}`s albums:</h3>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="container">
+        <!--Get albums-->
+        <div *ngIf="!albums || albums.length == 0" class="alert alert-info text-center mt-4">
+          <h4 *ngIf="isOwned">You haven`t added albums yet</h4>
+          <h4 *ngIf="!isOwned">User hasn`t added albums yet</h4>
+        </div>
+        <div *ngIf="albums && albums.length != 0">
+          <div *ngFor="let album of albums;let i = index">
+            <div class="card my-3">
+              <div class="card-body">
+                <h3 class="card-title d-inline-block">{{album.name}}</h3>
+                <!--Button to open album update modal-->
+                <button *ngIf="isOwned" type="button" class="form__button" (click)="upInfo.initialize(album)" data-toggle="modal" data-target="#updateAlbumModal"><i class="fas fa-edit"></i></button>
+                <br>
+                <!--Button to open the modal-->
+                <p class="card-text d-inline-block">{{album.description || "No description provided"}}</p>
+                <button *ngIf="isOwned" type="button" class="form__button" (click)="upInfo.initialize(album)" data-toggle="modal" data-target="#updateAlbumModal"><i class="fas fa-edit"></i></button>
+                <p class="card-text">Created: {{album.created | date}}</p>
+                <p class="card-text">Last updated: {{album.updated | date}}</p>
+              </div>
+              <div class="card-footer">
+                <a [routerLink]="['/albums', album.id, 'photos']" class="btn btn-info px-5">Open</a>
+                <button *ngIf="isOwned" (click)="deleteAlbum(album.id, i)" class="btn btn-danger float-right">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2 my-side-colon"></div>
+  </div>
+</div>
+<!--Album add modal-->
+<div *ngIf="isOwned" class="modal fade" id="createAlbumModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="crInfo.form" (submit)="createAlbum()">
+        <div class="modal-header">
+          <h4 class="modal-title">Create album</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="crName">Name</label>
+            <input type="text" class="form-control" placeholder="Enter here name of album" formControlName="name" id="crName">
+            <span *ngIf="crInfo.submitted && crInfo.f.name.errors" class="text-danger">
+              <span *ngIf="crInfo.f.name.errors.required">Name is required</span>
+              <span *ngIf="crInfo.f.name.errors.maxlength">Max length is 50 symbols</span>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="crDescription">Description</label>
+            <input type="text" class="form-control" placeholder="Enter here description of album" formControlName="description" id="crDescription">
+            <span *ngIf="crInfo.submitted && crInfo.f.description.errors" class="text-danger">
+              <span *ngIf="crInfo.f.description.errors.maxlength">Max length is 200 symbols</span>
+            </span>
+          </div>
+        </div>
+        <div style="min-height: 56px;">
+          <div *ngIf="crInfo.success" class="alert alert-success alert-dismissible fade show mx-3">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{crInfo.success}}
+          </div>
+          <div *ngIf="crInfo.error" class="alert alert-danger alert-dismissible fade show mx-3">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{crInfo.error}}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" [disabled]="loading || !crInfo.form.touched" class="btn btn-success">
+            <span *ngIf="crInfo.loading" class="spinner-border spinner-border-sm mr-1"></span>Create
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--Update album modal-->
+<div *ngIf="isOwned" class="modal fade" id="updateAlbumModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="upInfo.form" (submit)="updateAlbum()">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit album</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="upName">Name</label>
+            <input type="text" class="form-control" placeholder="Enter here new name of album" formControlName="name" id="upName">
+            <span *ngIf="upInfo.submitted && upInfo.f.name.errors" class="text-danger">
+              <span *ngIf="upInfo.f.name.errors.required">Name is required</span>
+              <span *ngIf="upInfo.f.name.errors.maxlength">Max length is 50 symbols</span>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="upDescription">Description</label>
+            <input type="text" class="form-control" placeholder="Enter here new description of album" formControlName="description" id="upDescription">
+            <span *ngIf="upInfo.submitted && upInfo.f.description.errors" class="text-danger">
+              <span *ngIf="upInfo.f.description.errors.maxlength">Max length is 200 symbols</span>
+            </span>
+          </div>
+        </div>
+        <div style="min-height: 56px;">
+          <div *ngIf="upInfo.success" class="alert alert-info alert-dismissible fade show mx-3">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{upInfo.success}}
+          </div>
+          <div *ngIf="upInfo.error" class="alert alert-danger alert-dismissible fade show mx-3">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{upInfo.error}}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" [disabled]="loading || !upInfo.form.touched" class="btn btn-primary px-3">
+            <span *ngIf="upInfo.loading" class="spinner-border spinner-border-sm mr-1"></span>Edit
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="fake-footer"></div>
