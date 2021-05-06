@@ -15,8 +15,6 @@ namespace PhotoGallery.WEB.Controllers
     {
         private readonly IAlbumService _albumService;
 
-        private int UserId => int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
         public AlbumController(IAlbumService albumService)
         {
             _albumService = albumService;
@@ -67,11 +65,6 @@ namespace PhotoGallery.WEB.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (albumAddDTO.UserId != UserId)
-            {
-                return BadRequest();
-            }
-
             AlbumDTO albumDTO;
 
             try
@@ -102,7 +95,7 @@ namespace PhotoGallery.WEB.Controllers
 
             try
             {
-                await _albumService.UpdateAlbumAsync(albumUpdateDTO, UserId);
+                await _albumService.UpdateAlbumAsync(albumUpdateDTO, 1);
             }
             catch (Exception e)
             {
@@ -118,7 +111,7 @@ namespace PhotoGallery.WEB.Controllers
         {
             try
             {
-                await _albumService.RemoveAlbumAsync(id, UserId);
+                await _albumService.RemoveAlbumAsync(id, 1);
             }
             catch (Exception e)
             {

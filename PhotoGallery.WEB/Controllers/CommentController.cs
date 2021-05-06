@@ -15,8 +15,6 @@ namespace PhotoGallery.WEB.Controllers
     {
         private readonly ICommentService _commentService;
 
-        private int UserId => int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
         public CommentController(ICommentService commentService)
         {
             _commentService = commentService;
@@ -76,7 +74,7 @@ namespace PhotoGallery.WEB.Controllers
 
             try
             {
-                commentDTO = await _commentService.AddCommentAsync(commentAddDTO, UserId);
+                commentDTO = await _commentService.AddCommentAsync(commentAddDTO, 1);
             }
             catch (Exception e)
             {
@@ -92,7 +90,7 @@ namespace PhotoGallery.WEB.Controllers
         {
             try
             {
-                await _commentService.RemoveCommentAsync(id, UserId);
+                await _commentService.RemoveCommentAsync(id, 1);
             }
             catch (Exception e)
             {

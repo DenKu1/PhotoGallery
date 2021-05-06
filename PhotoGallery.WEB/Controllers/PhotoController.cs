@@ -15,8 +15,6 @@ namespace PhotoGallery.WEB.Controllers
     {
         private readonly IPhotoService _photoService;
 
-        private int UserId => int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
         public PhotoController(IPhotoService photoService)
         {
             _photoService = photoService;
@@ -30,7 +28,7 @@ namespace PhotoGallery.WEB.Controllers
 
             try
             {
-                photoDTOs = await _photoService.GetPhotosAsync(id, UserId);
+                photoDTOs = await _photoService.GetPhotosAsync(id, 1);
             }
             catch (Exception e)
             {
@@ -48,7 +46,7 @@ namespace PhotoGallery.WEB.Controllers
 
             try
             {
-                photoDTO = await _photoService.GetPhotoAsync(id, UserId);
+                photoDTO = await _photoService.GetPhotoAsync(id, 1);
             }
             catch (Exception e)
             {
@@ -76,7 +74,7 @@ namespace PhotoGallery.WEB.Controllers
 
             try
             {
-                photoDTO = await _photoService.AddPhotoAsync(photoAddDTO, UserId);
+                photoDTO = await _photoService.AddPhotoAsync(photoAddDTO, 1);
             }
             catch (Exception e)
             {
@@ -92,7 +90,7 @@ namespace PhotoGallery.WEB.Controllers
         {
             try
             {
-                await _photoService.LikePhotoAsync(id, UserId);
+                await _photoService.LikePhotoAsync(id, 1);
             }
             catch (Exception e)
             {
@@ -118,7 +116,7 @@ namespace PhotoGallery.WEB.Controllers
 
             try
             {
-                await _photoService.UpdatePhotoAsync(photoUpdateDTO, UserId);
+                await _photoService.UpdatePhotoAsync(photoUpdateDTO, 1);
             }
             catch (Exception e)
             {
@@ -134,7 +132,7 @@ namespace PhotoGallery.WEB.Controllers
         {
             try
             {
-                await _photoService.RemovePhotoAsync(id, UserId);
+                await _photoService.RemovePhotoAsync(id, 1);
             }
             catch (Exception e)
             {
